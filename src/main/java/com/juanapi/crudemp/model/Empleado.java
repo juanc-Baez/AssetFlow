@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -55,5 +56,8 @@ public class Empleado {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TipoContrato tipoContrato;
+
+    @OneToMany(mappedBy = "empleado", cascade = CascadeType.ALL)
+    private List<Activo> activos;
 
 }
