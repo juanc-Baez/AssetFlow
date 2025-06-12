@@ -35,10 +35,4 @@ Este proyecto es una aplicación fullstack profesional para la gestión de activ
 - Levantar solo backend: `docker-compose up backend`
 - Levantar solo frontend: `docker-compose up frontend`
 
-## Notas para tu portafolio
-- Código limpio, buenas prácticas y contenerización profesional.
-- Listo para ser probado por reclutadores o colegas con un solo comando.
 
----
-
-¡Listo para destacar en tu portafolio!
