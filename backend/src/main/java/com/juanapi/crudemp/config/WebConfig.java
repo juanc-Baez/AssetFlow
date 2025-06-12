@@ -14,7 +14,7 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000") // Permitir llamadas desde tu frontend
+                        .allowedOrigins("http://localhost:3000") // permite las llamadas desde el frontend
                         .allowedMethods("GET", "POST", "PUT", "DELETE");
             }
         };

@@ -11,9 +11,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 interface EmpleadoFormProps {
   initialData?: any
   onSubmit: (data: any) => void
+  errorMessage?: string
 }
 
-export function EmpleadoForm({ initialData, onSubmit }: EmpleadoFormProps) {
+export function EmpleadoForm({ initialData, onSubmit, errorMessage }: EmpleadoFormProps) {
   const [formData, setFormData] = useState({
     nombre: initialData?.nombre || "",
     apellido: initialData?.apellido || "",
@@ -80,6 +81,13 @@ export function EmpleadoForm({ initialData, onSubmit }: EmpleadoFormProps) {
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           required
         />
+        {/* Mensaje de error justo debajo del campo email, con asterisco rojo y font más pequeño */}
+        {errorMessage && (
+          <div className="flex items-center gap-1 mt-1">
+            <span className="text-red-600 text-base leading-none">*</span>
+            <span className="text-red-600 text-xs leading-none">{errorMessage}</span>
+          </div>
+        )}
       </div>
 
       <div className="space-y-2">

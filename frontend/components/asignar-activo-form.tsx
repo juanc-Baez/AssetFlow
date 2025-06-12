@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import axios from "axios"
+import { API_BASE_URL } from "@/lib/config"
 
 interface AsignarActivoFormProps {
   activo: any
@@ -21,7 +22,7 @@ export function AsignarActivoForm({ activo, onSubmit }: AsignarActivoFormProps) 
   useEffect(() => {
     const fetchEmpleados = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/empleado/obtEmpleados`)
+        const response = await axios.get(`${API_BASE_URL}/empleado/obtEmpleados`)
         setEmpleados(response.data)
       } catch (error) {
         console.error("Error al obtener empleados:", error)

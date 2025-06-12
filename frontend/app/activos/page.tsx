@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -11,7 +11,7 @@ import { ActivoForm } from "@/components/activo-form"
 import { AsignarActivoForm } from "@/components/asignar-activo-form"
 import { Plus, Search, Edit, Trash2, UserPlus } from "lucide-react"
 import axios from "axios"
-import { set } from "date-fns"
+import { API_BASE_URL } from "@/lib/config"
 // Define the Empleado interface here or import it from a types file
 interface Empleado {
   id: number
@@ -39,11 +39,12 @@ export default function ActivosPage() {
   const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false)
   const [selectedActivo, setSelectedActivo] = useState<Activo | null>(null)
   const [empleados, setEmpleados] = useState<Empleado[]>([])
+  const asignarDialogRef = useRef<HTMLDivElement | null>(null)
 
   // Datos de ejemplo - reemplazar con llamadas a tu API
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/activo/obtActivos`)
+      .get(`${API_BASE_URL}/activo/obtActivos`)
       .then((response) => {
         setActivos(response.data)
         setFilteredActivos(response.data)
@@ -58,7 +59,7 @@ export default function ActivosPage() {
   // Cargar empleados al montar
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/empleado/obtEmpleados`)
+      .get(`${API_BASE_URL}/empleado/obtEmpleados`)
       .then((response) => setEmpleados(response.data))
       .catch(() => setEmpleados([]))
   }, [])
@@ -75,7 +76,7 @@ export default function ActivosPage() {
 const handleCreateActivo = async (activoData: any) => {
   try {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/activo/crear`,
+      `${API_BASE_URL}/activo/crear`,
       activoData
     )
     setActivos([...activos, response.data])
@@ -89,7 +90,7 @@ const handleUpdateActivo = async (activoData: any) => {
   if (selectedActivo) {
     try {
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/activo/actualizar/${selectedActivo.id}`,
+        `${API_BASE_URL}/activo/actualizar/${selectedActivo.id}`,
         activoData
       )
       const updatedActivos = activos.map((activo) =>
@@ -106,7 +107,7 @@ const handleUpdateActivo = async (activoData: any) => {
 
 const handleDeleteActivo = async (id: number) => {
   try {
-    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/activo/eliminar/${id}`)
+    await axios.delete(`${API_BASE_URL}/activo/eliminar/${id}`)
     setActivos(activos.filter((activo) => activo.id !== id))
   } catch (error) {
     console.error("Error al eliminar activo:", error)
@@ -115,7 +116,7 @@ const handleDeleteActivo = async (id: number) => {
 const handleAssignActivo = async (activoId: number, empleadoId: number) => {
   try {
     const response = await axios.put(
-      `${process.env.NEXT_PUBLIC_API_URL}/activo/asignar/${activoId}/${empleadoId}`
+      `${API_BASE_URL}/activo/asignar/${activoId}/${empleadoId}`
     )
     const updatedActivos = activos.map((activo) =>
       activo.id === activoId ? response.data : activo
@@ -244,8 +245,14 @@ const handleAssignActivo = async (activoId: number, empleadoId: number) => {
       </Dialog>
 
       {/* Dialog para asignar activo */}
-      <Dialog open={isAssignDialogOpen} onOpenChange={setIsAssignDialogOpen}>
-        <DialogContent className="max-w-md">
+      <Dialog open={isAssignDialogOpen} onOpenChange={(open) => {
+    setIsAssignDialogOpen(open)
+    if (open) {
+      // Forzar recarga de empleados al abrir el diálogo
+      axios.get(`${API_BASE_URL}/empleado/obtEmpleados`).then((response) => setEmpleados(response.data)).catch(() => setEmpleados([]))
+    }
+  }}>
+        <DialogContent className="max-w-md" ref={asignarDialogRef}>
           <DialogHeader>
             <DialogTitle>Asignar Activo a Empleado</DialogTitle>
           </DialogHeader>

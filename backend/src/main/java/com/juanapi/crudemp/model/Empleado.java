@@ -65,7 +65,7 @@ public class Empleado {
     @Column(nullable = false)
     private TipoContrato tipoContrato;
 
-    @OneToMany(mappedBy = "empleado", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "empleado")
     private List<Activo> activos;
 
 }

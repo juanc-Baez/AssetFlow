@@ -46,6 +46,10 @@ public class EmpleadoService {
     public void eliminarEmpleado(Long id) {
         Empleado empleado = empleadoRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Empleado no encontrado con id" + id));
+        // Desasignar los activos antes de eliminar el empleado
+        if (empleado.getActivos() != null) {
+            empleado.getActivos().forEach(activo -> activo.setEmpleado(null));
+        }
         empleadoRepo.delete(empleado);
     }
 

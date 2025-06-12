@@ -11,6 +11,22 @@ public class ErrorDetails {
         this.details = details;
     }
 
-    // Getters y setters
+    public int getStatusCode() {
+        return statusCode;
+    }
+    public String getMessage() {
+        return message;
+    }
+    public String getDetails() {
+        return details;
+    }
+    @Override
+    public String toString() {
+        return "ErrorDetails{" +
+                "statusCode=" + statusCode +
+                ", message='" + message + '\'' +
+                ", details='" + details + '\'' +
+                '}';
+    }
 }
 
