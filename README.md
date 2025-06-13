@@ -1,6 +1,6 @@
 # AssetFlow: Sistema de Gestión de Activos y Empleados
 
-Este proyecto es una aplicación fullstack profesional para la gestión de activos y empleados, lista para producción y fácil de desplegar con Docker.
+Este proyecto es una aplicación fullstack para la gestión de activos y empleados.
 
 ## Tecnologías principales
 - **Backend:** Java 21, Spring Boot 3 (patrón MVC)
