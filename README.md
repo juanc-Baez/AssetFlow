@@ -3,9 +3,24 @@
 Este proyecto es una aplicación fullstack profesional para la gestión de activos y empleados, lista para producción y fácil de desplegar con Docker.
 
 ## Tecnologías principales
-- **Backend:** Java 17, Spring Boot
+- **Backend:** Java 21, Spring Boot 3 (patrón MVC)
 - **Frontend:** Next.js, TypeScript, Tailwind CSS, pnpm
 - **Contenerización:** Docker, Docker Compose
+- **Base de datos:** MySQL 8 (en contenedor)
+
+## Estructura del proyecto
+- `/backend`: API REST Spring Boot
+  - **Patrón:** MVC (Model-View-Controller)
+    - `controller/`: Controladores REST (`ActivoController`, `EmpleadoController`)
+    - `service/`: Lógica de negocio (`ActivoService`, `EmpleadoService`)
+    - `repository/`: Acceso a datos con Spring Data JPA (`ActivoRepo`, `EmpleadoRepo`)
+    - `model/`: Entidades JPA (`Activo`, `Empleado`)
+    - `config/`: Configuración adicional de Spring Boot
+  - **Comunicación con la base de datos:**
+    - Utiliza Spring Data JPA para interactuar con MySQL.
+    - La configuración de conexión está en `application.properties` y variables de entorno (`.env`).
+    - Las tablas se crean automáticamente al iniciar el backend.
+- `/frontend`: Next.js + Tailwind CSS
 
 ## Ejecución rápida con Docker Compose
 
@@ -24,12 +39,8 @@ Este proyecto es una aplicación fullstack profesional para la gestión de activ
    - Frontend: [http://localhost:3000](http://localhost:3000)
    - Backend API: [http://localhost:8080](http://localhost:8080)
 
-## Estructura del proyecto
-- `/backend`: API REST Spring Boot
-- `/frontend`: Next.js + Tailwind CSS
-
 ## Personalización
-- Puedes modificar la variable `NEXT_PUBLIC_API_URL` en el servicio frontend desde `docker-compose.yml` si cambias el puerto del backend.
+- Puedes modificar la variable `NEXT_PUBLIC_API_URL` en el servicio frontend desde `.env` o `docker-compose.yml` si cambias el puerto del backend.
 
 ## Scripts útiles
 - Levantar solo backend: `docker-compose up backend`

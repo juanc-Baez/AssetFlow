@@ -61,18 +61,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
-    @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
-    public ResponseEntity<?> handleHttpMediaTypeNotAcceptableException(HttpMediaTypeNotAcceptableException ex, WebRequest request) {
-        Throwable cause = ex.getCause();
-        while (cause != null) {
-            if (cause.getMessage() != null && cause.getMessage().contains("Duplicate entry") && cause.getMessage().contains("email")) {
-                String message = "El email ya está registrado. Usa uno diferente.";
-                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), message, request.getDescription(false));
-                return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
-            }
-            cause = cause.getCause();
-        }
-        ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_ACCEPTABLE.value(), ex.getMessage(), request.getDescription(false));
-        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_ACCEPTABLE);
-    }
 }
