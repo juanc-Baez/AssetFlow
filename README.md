@@ -40,7 +40,7 @@ Este proyecto es una aplicación fullstack para la gestión de activos y emplead
    - Backend API: [http://localhost:8080](http://localhost:8080)
 
 ## Personalización
-- Puedes modificar la variable `NEXT_PUBLIC_API_URL` en el servicio frontend desde `.env` o `docker-compose.yml` si cambias el puerto del backend.
+- Podés modificar la variable `NEXT_PUBLIC_API_URL` en el servicio frontend desde `.env` o `docker-compose.yml` si cambias el puerto del backend.
 
 ## Scripts útiles
 - Levantar solo backend: `docker-compose up backend`
